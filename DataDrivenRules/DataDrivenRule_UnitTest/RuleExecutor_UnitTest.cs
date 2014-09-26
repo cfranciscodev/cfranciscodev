@@ -22,9 +22,9 @@ namespace DataDrivenRule_UnitTest
         public void Monkey()
         {
             Setup();
-            _executor.Execute("DataDrivenRules.RuleExecutor", "MethodA");
+            _executor.Execute("DataDrivenRules", "RuleExecutor", "MethodA");
 
-            Assert.AreEqual("MethodA", _executor.calledMethod);
+            Assert.AreEqual("MethodA", _executor.returnValue.ToString());
         }
     }
 }
