@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace DataDrivenRules
@@ -16,20 +12,17 @@ namespace DataDrivenRules
             var classType = Type.GetType(nameSpace + "." + className);
             var contructInfo = classType.GetConstructor(Type.EmptyTypes);
             var classInstance = contructInfo.Invoke(new object[] { });
-
             var methodInfo = classType.GetMethod(methodName);
             returnValue = methodInfo.Invoke(classInstance, new object[] { });
-
         }
 
-        public string MethodA()
+        public void Execute(object classInstance, string methodName)
         {
-            return "MethodA";
+            var classType = classInstance.GetType();
+            var magicMethod = classType.GetMethod(methodName);
+            returnValue = magicMethod.Invoke(classInstance, new object[] { });
         }
 
-        public string MethodB()
-        {
-            return "MethodB";
-        }
+
     }
 }

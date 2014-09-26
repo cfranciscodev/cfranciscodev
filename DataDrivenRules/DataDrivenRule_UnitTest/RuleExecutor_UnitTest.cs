@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataDrivenRules;
+﻿using DataDrivenRules;
 using NUnit.Framework;
 
 namespace DataDrivenRule_UnitTest
@@ -19,11 +14,19 @@ namespace DataDrivenRule_UnitTest
         }
 
         [Test]
-        public void Monkey()
+        public void RuleExecutor_PassClassAndMethodNamesAsString_CallsCorrectMethod()
         {
             Setup();
-            _executor.Execute("DataDrivenRules", "RuleExecutor", "MethodA");
+            _executor.Execute("DataDrivenRules", "SomeClass", "MethodA");
+            Assert.AreEqual("MethodA", _executor.returnValue.ToString());
+        }
 
+        [Test]
+        public void RuleExecutor_PassClassInstanceAndMethodNameAsString_CallsCorrectMethod()
+        {
+            Setup();
+            var someClass = new SomeClass();
+            _executor.Execute(someClass, "MethodA");
             Assert.AreEqual("MethodA", _executor.returnValue.ToString());
         }
     }
