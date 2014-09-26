@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace DataDrivenRules
@@ -19,10 +22,32 @@ namespace DataDrivenRules
         public void Execute(object classInstance, string methodName)
         {
             var classType = classInstance.GetType();
-            var magicMethod = classType.GetMethod(methodName);
-            returnValue = magicMethod.Invoke(classInstance, new object[] { });
+            var methodInfo = classType.GetMethod(methodName);
+            var parameters = methodInfo.GetParameters();
+            foreach (ParameterInfo param in parameters)
+            {
+                Debug.WriteLine(param.Name + " is a " + param.ParameterType);
+            }
+            returnValue = methodInfo.Invoke(classInstance, new object[] { });
         }
 
+        public void Execute(object classInstance, string methodName, Dictionary<string, Object> parameterDictionary)
+        {
+            var classType = classInstance.GetType();
+            var methodInfo = classType.GetMethod(methodName);
+            var methodParamInfo = methodInfo.GetParameters();
+                
+            var parametersToPass = new object[methodParamInfo.Count()];
+            int loopCount = 0;
+            foreach (var param in methodParamInfo)
+            {
+                parametersToPass[loopCount] = parameterDictionary[param.Name];
+                loopCount += 1;
+                Debug.WriteLine(param.Name + " is a " + param.ParameterType);
+            }
+            returnValue = methodInfo.Invoke(classInstance, parametersToPass);
+
+        }
 
     }
 }

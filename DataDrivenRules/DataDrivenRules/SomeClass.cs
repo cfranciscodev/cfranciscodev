@@ -11,5 +11,11 @@
         {
             return "MethodB";
         }
+
+        public string MethodC(int count)
+        {
+            //, string foo, double blah, string grib
+            return "MethodC " + count.ToString();
+        }
     }
 }
